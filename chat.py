@@ -10,9 +10,9 @@ def input_login():
     global password
 
  #TODO uncomment this
-   # print("Please login into your Replika AI account:")
-    #email = input("E-mail:")
-    #password = input("Password:")
+    print("Please login into your Replika AI account:")
+    email = input("E-mail:")
+    password = input("Password:")
 
 def enter_chat_website():
     driver.get("https://my.replika.ai/")
@@ -24,14 +24,14 @@ def perform_login():
 
     # Send our e-mail and click next
     email_field = driver.find_element_by_css_selector("#emailOrPhone")
-    email_field.send_keys("pwiltus@hotmail.com")  # TODO replace for email
+    email_field.send_keys(email)  # TODO replace for email
     driver.find_element_by_css_selector("#loginForm > button").click()
 
     time.sleep(1) # Wait for website
 
     # Send our password and click next
     password_field = driver.find_element_by_css_selector("#login-password")
-    password_field.send_keys("B@squete123")  # TODO replace for password
+    password_field.send_keys(password)  # TODO replace for password
     time.sleep(1)
     driver.find_element_by_css_selector("#loginForm > button").click()
     time.sleep(2)
@@ -41,7 +41,7 @@ def perform_login():
         input_login()
         perform_login()
     else:
-        print("Login successfull!")
+        print("Login successful!")
 
 # Chat methods
 def send_message(message):

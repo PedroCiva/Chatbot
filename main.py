@@ -112,7 +112,6 @@ def listen_print_loop(responses):
     num_chars_printed = 0
     for response in responses:
         if not response.results:
-            print("s")
             continue
 
         # The `results` list is consecutive. For streaming, we only care about
@@ -120,7 +119,6 @@ def listen_print_loop(responses):
         # moves on to considering the next utterance.
         result = response.results[0]
         if not result.alternatives:
-            print("sa")
             continue
 
         # Display the transcription of the top alternative.
@@ -145,7 +143,6 @@ def listen_print_loop(responses):
                 print("Exiting..")
                 break
             elif re.search(r"\b(interrogation)\b", transcript, re.I):
-                print("Here")
                 my_speech = my_speech.replace("interrogation", "?")
 
             num_chars_printed = 0
