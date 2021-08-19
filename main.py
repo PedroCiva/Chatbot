@@ -13,6 +13,7 @@ from six.moves import queue
 
 import TTS
 import chat
+import audio
 
 # Audio recording parameters
 RATE = 16000
@@ -141,26 +142,37 @@ def listen_print_loop(responses):
             # one of our keywords.
             if re.search(r"\b(exit|quit|ferme)\b", transcript, re.I):
                 print("Exiting..")
+                audio.stop = True
                 break
             elif re.search(r"\b(interrogation)\b", transcript, re.I):
                 my_speech = my_speech.replace("interrogation", "?")
 
             num_chars_printed = 0
 
-            print(my_speech)
-            # Translate my speech to english
-            my_speech_translated = TTS.Translate(my_speech, 'en')
+            print("You said: " + my_speech)
 
-            # Send message
-            chat.send_message(my_speech_translated)
-            time.sleep(8)  # Wait for AI response
+            is_correct = input("If this is correct, press Y, if not press N to try again or press Q to quit: ")
+            if is_correct == "n" or "N":
+                my_speech = ""
+            elif is_correct == "q" or "Q":
+                audio.stop = True
+                break
+            else:
+                # Translate my speech to english
+                my_speech_translated = TTS.Translate(my_speech, 'en')
 
-            # Get AI response
-            ai_response = chat.GetMessage()
-            # Translate AI response back to french
-            ai_response = TTS.Translate(ai_response,'fr')
-            # Speak AI response
-            TTS.Say(ai_response)
+                # Send message
+                chat.send_message(my_speech_translated)
+                time.sleep(8)  # Wait for AI response
+
+                # Get AI response
+                ai_response = chat.GetMessage()
+                # Translate AI response back to french
+                ai_response = TTS.Translate(ai_response, 'fr')
+                # Speak AI response
+                TTS.Say(ai_response)
+                pass
+
 
 
 
