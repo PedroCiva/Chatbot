@@ -5,13 +5,21 @@ from pprint import pprint
 # This script takes care of the text translation and conversion from Text to Speech
 
 engine = pyttsx3.init()
-
 voices = engine.getProperty('voices')
 
 # List of available languages installed on this computer
 languages = []
 start = "- "
 end = "("
+
+def get_speed():
+    return str(engine.getProperty('rate'))
+
+def change_speed(rate):
+    engine.setProperty('rate', rate)
+
+def noty():
+    pass
 
 def list_voices():
     print("List of available voices and languages:  \n")

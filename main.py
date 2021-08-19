@@ -149,14 +149,35 @@ def listen_print_loop(responses):
 
             num_chars_printed = 0
 
+            # Verify with user if his input is correct
             print("You said: " + my_speech)
 
-            is_correct = input("If this is correct, press Y, if not press N to try again or press Q to quit: ")
-            if is_correct == "n" or "N":
+            is_correct = input("If this is correct, press Y, if not press N to try again, press V to change the AI voice speed or press Q to quit:")
+            print(is_correct)
+            if is_correct == 'n' or is_correct == 'N':
                 my_speech = ""
-            elif is_correct == "q" or "Q":
+            elif is_correct == 'q' or is_correct =='Q':
                 audio.stop = True
                 break
+            elif is_correct == 'v' or is_correct == 'V':
+                print("Current speed is: " + TTS.get_speed())
+                speed = TTS.get_speed()
+                speed = input("Speed levels are 100 (slowest) to 200 (fastest), make your choice: ")
+                while speed < "100" or speed > "200":
+                    print("Here")
+                    print("Error, try again...")
+                    speed = input("Speed levels are 100 (slowest) to 200 (fastest), make your choice: ")
+                is_good = "n"
+                while is_good == 'n' or is_good == "N":
+                    TTS.change_speed(rate=int(speed))
+                    TTS.Say("je parle de quelque chose")
+                    is_good = input("If this speed is good for you press Y, press N to change speed.")
+                    if is_good == "n" or is_good == "N":
+                        speed = input("Speed levels are 100 (slowest) to 200 (fastest), make your choice: ")
+                    else:
+                        while speed < "100" or speed > "200":
+                            print("Error, try again...")
+                            speed = input("Speed levels are 100 (slowest) to 200 (fastest), make your choice: ")
             else:
                 # Translate my speech to english
                 my_speech_translated = TTS.Translate(my_speech, 'en')
@@ -170,8 +191,11 @@ def listen_print_loop(responses):
                 # Translate AI response back to french
                 ai_response = TTS.Translate(ai_response, 'fr')
                 # Speak AI response
-                TTS.Say(ai_response)
-                pass
+                should_repeat = 'y'
+                while should_repeat == 'y' or should_repeat == 'Y':
+                    TTS.Say(ai_response)
+                    should_repeat = input("Would you like to hear that again? Press Y or N.")
+
 
 
 
