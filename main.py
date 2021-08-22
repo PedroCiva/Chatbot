@@ -90,10 +90,6 @@ class MicrophoneStream(object):
             yield b"".join(data)
 
 
-def send_text(text):
-    pass
-
-
 def listen_print_loop(responses):
     global my_speech
     """Iterates through server responses and prints them.
